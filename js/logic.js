@@ -108,21 +108,20 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
       // We set the style for each circleMarker using our styleInfo function.
     style: styleInfo,
      // We create a popup for each circleMarker to display the magnitude and location of the earthquake
-     //  after the marker has been created and styled.
+     // after the marker has been created and styled.
      onEachFeature: function(feature, layer) {
       layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
-    }
+     }
   }).addTo(allEarthquakes);
 
-  // Then we add the earthquake layer to our map.
+  //Then we add the earthquake layer to our map.
   allEarthquakes.addTo(map);
 
 // 3. Retrieve the major earthquake GeoJSON data >4.5 mag for the week.
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson").then(function(data) {
-    L.geoJSON(data).addTo(bigEarthquakes);
-    bigEarthquakes.addTo(map);
+
     // 4. Use the same style as the earthquake data.
-    function styleInfoBig(feature) {
+    function styleInfo(feature) {
         return {
           opacity: 1,
           fillOpacity: 1,
@@ -153,20 +152,20 @@ function getRadius(magnitude) {
     return magnitude * 4;
 }    
     
-    // 7. Creating a GeoJSON layer with the retrieved data that adds a circle to the map 
-    // sets the style of the circle, and displays the magnitude and location of the earthquake
-    //  after the marker has been created and styled.
+   //7. Creating a GeoJSON layer with the retrieved data that adds a circle to the map 
+   // sets the style of the circle, and displays the magnitude and location of the earthquake
+    // after the marker has been created and styled.
     L.geoJson(data, {
         pointToLayer: function(feature, latlng) {
             return L.circleMarker(latlng);
         },
-        style: styleInfoBig,
-        onEachFeature: function(feature, layer){
-            layer.bindPopup("Magnitude: "+ feature.properties.mag+ "<br>Location: "+ feature.properties.place);
+        style: styleInfo,
+         onEachFeature: function(feature, layer){
+             layer.bindPopup("Magnitude: "+ feature.properties.mag+ "<br>Location: "+ feature.properties.place);
         }
     }).addTo(bigEarthquakes);
     // 8. Add the major earthquakes layer to the map.
-    bigEarthquakes.addTo(map);
+     bigEarthquakes.addTo(map);
     // 9. Close the braces and parentheses for the major earthquake data.
     });
 
